@@ -1,97 +1,152 @@
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
-# Getting Started
+# MyneflowReactNative
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+A simple, modern React Native app for browsing Pokémon, viewing their details (including evolution chains), and managing your favorites. Built with TypeScript, React Navigation, and the [PokeAPI](https://pokeapi.co/).
 
-## Step 1: Start Metro
+---
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## 🚀 Running the Project Locally
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+### Prerequisites
+
+- **Node.js** (v18 or higher)
+- **Yarn** or **npm**
+- **React Native CLI** (see [React Native Environment Setup](https://reactnative.dev/docs/environment-setup))
+- **Android Studio** or **Xcode** (for running on emulators/simulators)
+- **CocoaPods** (for iOS, run `sudo gem install cocoapods` if needed)
+
+### 1. Install dependencies
 
 ```sh
 # Using npm
-npm start
+npm install
 
-# OR using Yarn
+# Or using Yarn
+yarn install
+```
+
+### 2. iOS setup (first time only)
+
+```sh
+# Install Ruby gems (CocoaPods, etc.)
+bundle install
+
+# Install iOS pods
+bundle exec pod install --project-directory=ios
+```
+
+### 3. Start the Metro bundler
+
+```sh
+npm start
+# or
 yarn start
 ```
 
-## Step 2: Build and run your app
+### 4. Run the app
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
+#### Android
 
 ```sh
-# Using npm
 npm run android
-
-# OR using Yarn
+# or
 yarn android
 ```
 
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+#### iOS
 
 ```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
 npm run ios
-
-# OR using Yarn
+# or
 yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+---
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+## Project Overview
 
-## Step 3: Modify your app
+This app lets you:
 
-Now that you have successfully run the app, let's make changes!
+- Browse a paginated list of Pokémon (with images, national dex numbers and names)
+- Tap a Pokémon to view detailed info, including:
+  - Types, stats, abilities
+  - **Evolution chain** (bonus feature)
+- Mark/unmark Pokémon as favorites (persisted locally)
+- View your list of favorite Pokémon in a dedicated tab
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+### Main Technologies
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+- **React Native** (TypeScript)
+- **React Navigation** (bottom tabs, stack navigation)
+- **Axios** for HTTP requests and data fetching
+- **AsyncStorage** for persisting favorites
+- **PokeAPI** for all Pokémon data
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+---
 
-## Congratulations! :tada:
+## 💡 Approach & Challenges
 
-You've successfully run and modified your React Native App. :partying_face:
+**Approach:**
+- The app is structured with clear separation: screens, components, hooks, context, and API logic.
+- Navigation uses a bottom tab navigator (Home, Favorites), with stack navigation for details.
+- Data fetching is handled directly with Axios for API requests.
+- Favorites are managed globally via React Context and persisted with AsyncStorage.
+- The UI is fully responsive and adapts to both iOS and Android devices.
+- The codebase follows modular, reusable, and TypeScript-based best practices.
+- Unit test created using Jest.
+- Unit tests have been included for three components: Abilities, StatBar and Stats. 
+- Unit test is included for one utility function: getTypeColor.
 
-### Now what?
+**Challenges encountered:**
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+- **Favorites functionality:**  
+  Ensuring favorites persist across app restarts using AsyncStorage.  
+  Keeping the UI in sync with storage changes and handling edge cases (e.g., rapid toggling, empty state).  
+  Making sure favorites are available offline and updating instantly across screens.
 
-# Troubleshooting
+- **API structure:**  
+  Navigating and parsing deeply nested API responses, especially for evolution chains.  
+  Handling multiple asynchronous requests and combining their results.  
+  Managing errors when the API is slow, unavailable, or returns unexpected data.
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+- **Infinite scroll:**  
+  Implementing smooth infinite scroll for the Pokémon list while avoiding duplicate fetches and performance issues on the FlatList component.  
+  Managing loading indicators and preventing multiple triggers of data loading on the FlatList component.  
+  Ensuring the user experience remains responsive, even with large data sets and network delays.
 
-# Learn More
+- **Evolution Chain component:**  
+  Parsing and displaying complex, branching evolution chains from the PokeAPI.  
+  Handling cases where Pokémon have multiple or no evolutions, and presenting this clearly in the UI.  
+  Coordinating multiple API calls and managing loading/error states for a seamless user experience.
 
-To learn more about React Native, take a look at the following resources:
+- **Image handling:**  
+  Building correct image URLs from API data and using optimized endpoints.
+  Added another source for Pokemon images to enhance user experience (not pokeApi.co)
+  Handling missing, slow-loading, or broken images gracefully.  
+  Ensuring images load efficiently to provide a smooth user experience.
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+---
+
+## ✨ Implemented Bonus
+
+- **EvolutionChain Component:**  
+  On each Pokémon's details screen, the app displays a visual evolution chain, showing all stages (with images and names) and arrows between them. This required:
+  - Fetching species and evolution chain data from the PokeAPI
+  - Recursively parsing the evolution chain structure
+  - Handling loading and error states
+
+---
+
+## 📂 Project Structure
+
+```
+src/
+  api/           # API config and services
+  components/    # Reusable UI components (e.g., PokemonCard, Icons)
+  context/       # Global state (FavoritesContext)
+  routes/        # Navigation setup (tabs, stacks)
+  screens/       # App screens (Home, Favorites, PokemonDetails)
+    PokemonDetails/components/EvolutionChain/  # Bonus feature!
+  utils/         # Utility functions and constants
+```

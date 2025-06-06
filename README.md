@@ -148,5 +148,9 @@ src/
   routes/        # Navigation setup (tabs, stacks)
   screens/       # App screens (Home, Favorites, PokemonDetails)
     PokemonDetails/components/EvolutionChain/  # Bonus feature!
+    PokemonDetails/usePokemonDetails.ts # Custom Hook for each screen
+    PokemonDetails/PokemonDetails.styles.ts # Styles for each screen
+    PokemonDetails/PokemonDetails.screen.tsx # View where we call the custom hook
+    PokemonDetails/index.ts # Index to export the screen
   utils/         # Utility functions and constants
 ```
